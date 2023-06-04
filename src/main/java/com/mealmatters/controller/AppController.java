@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mealmatters.auth.AuthService;
 import com.mealmatters.auth.service.JwtUtil;
+import com.mealmatters.dao.Food;
 import com.mealmatters.dao.FoodDetailEntity;
 import com.mealmatters.dao.Location;
 import com.mealmatters.dao.UserEntity;
@@ -127,6 +128,18 @@ public class AppController {
 		else
 		
 		return new ResponseEntity<>("Unautorized", HttpStatus.UNAUTHORIZED);
+	}
+	
+	@GetMapping("/getfoods/{id}")
+	public ResponseEntity<?> getfoodofuser(@RequestHeader(value = "Authorization" , required = true) String token, @PathVariable("id") String id) throws CustomException{
+		if(authService.validate(token).isValid()) {
+			
+			  List<Food> fep = service.getthefoodby(id);
+			  return new ResponseEntity<List<Food>>(fep, HttpStatus.OK);
+			}
+			else
+			
+			return new ResponseEntity<>("Unautorized", HttpStatus.UNAUTHORIZED);
 	}
 	
 	

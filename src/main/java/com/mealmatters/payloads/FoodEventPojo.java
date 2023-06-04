@@ -8,9 +8,10 @@ public class FoodEventPojo implements Comparable<FoodEventPojo>{
 	private String id;
 	private String contact;
 	private Address address;
+	private String name;
 	private double distance;
 	private String timeremain;
-	public FoodEventPojo(String id,  String contact, Address address, double distance,
+	public FoodEventPojo(String id,  String contact, Address address, String name, double distance,
 			String timeremain) {
 		super();
 		this.id = id;
@@ -19,8 +20,17 @@ public class FoodEventPojo implements Comparable<FoodEventPojo>{
 		this.address = address;
 		this.distance = distance;
 		this.timeremain = timeremain;
+		this.name = name;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public FoodEventPojo() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mealmatters.dao.Address;
+import com.mealmatters.dao.Food;
 import com.mealmatters.dao.FoodDetailEntity;
 import com.mealmatters.dao.Location;
 import com.mealmatters.dao.UserEntity;
@@ -68,6 +69,7 @@ public class AppServiceImpl implements AppService{
 			fep.setTimeremain(remainingtime);
 			fep.setId(entity.getId());
 			fep.setDistance(distance);
+			fep.setName(name);
 			res.add(fep);
 			
 			
@@ -112,6 +114,14 @@ public class AppServiceImpl implements AppService{
 		double distance = 637 * c;
 
 		return distance;
+	}
+	@Override
+	public List<Food> getthefoodby(String id) {
+		// TODO Auto-generated method stub
+		
+		FoodDetailEntity entity = foodRepository.findById(id).orElse(null);
+		List<Food> list = entity.getFoods();
+		return list;
 	}
 	   
 	
