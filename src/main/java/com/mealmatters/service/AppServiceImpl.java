@@ -116,12 +116,55 @@ public class AppServiceImpl implements AppService{
 		return distance;
 	}
 	@Override
-	public List<Food> getthefoodby(String id) {
+	public FoodDetailEntity getthefoodby(String id) {
 		// TODO Auto-generated method stub
 		
 		FoodDetailEntity entity = foodRepository.findById(id).orElse(null);
-		List<Food> list = entity.getFoods();
-		return list;
+		
+		return entity;
+	}
+	@Override
+	public List<FoodEventPojo> getnearestdistanceinrange(Location location, Integer dis) {
+		// TODO Auto-generated method stub
+		
+		List<FoodDetailEntity> list = foodRepository.findAll();
+		List<FoodEventPojo> res = new ArrayList<>();
+		double usrLat = location.getLatitude();
+		double usrLong = location.getLongitude();
+		System.out.println("88888" + list.toString());
+		for(FoodDetailEntity entity : list) {
+			
+			double foodLat = entity.getLocation().getLatitude();
+			double foodLong = entity.getLocation().getLongitude();
+			
+			if(System.currentTimeMillis() >= entity.getCurrentTime())
+				continue;
+			double distance = calculateDistance(usrLat, usrLong, foodLong, foodLat);
+			
+			if(dis> distance)
+				continue;
+			Address address = entity.getAddress();
+			UserEntity user = userRepository.findUserEntityByUsername(entity.getUsername());
+			String name = user.getName();
+			String contact = user.getContact();
+			
+			long totaltime = entity.getCurrentTime() - System.currentTimeMillis();
+			String remainingtime = getTimeinhrmin(totaltime);
+				
+			FoodEventPojo fep = new FoodEventPojo();
+			fep.setAddress(address);
+			fep.setContact(contact);
+			fep.setTimeremain(remainingtime);
+			fep.setId(entity.getId());
+			fep.setDistance(distance);
+			fep.setName(name);
+			res.add(fep);
+			
+			
+		}
+		Collections.sort(res);
+		return res;
+		
 	}
 	   
 	

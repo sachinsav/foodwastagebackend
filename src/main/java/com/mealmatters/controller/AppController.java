@@ -129,13 +129,25 @@ public class AppController {
 		
 		return new ResponseEntity<>("Unautorized", HttpStatus.UNAUTHORIZED);
 	}
+	@PostMapping("/getnearestinthisrange/{dis}")
+	public ResponseEntity<?> getnearestfoodinrange(@RequestHeader(value = "Authorization" , required = true) String token, @RequestBody Location location, @PathVariable("dis") Integer dis) throws CustomException{
+		if(authService.validate(token).isValid()) {
+			
+		  List<FoodEventPojo> fep = service.getnearestdistanceinrange(location, dis);
+		  return new ResponseEntity<List<FoodEventPojo>>(fep, HttpStatus.OK);
+		}
+		else
+		
+		return new ResponseEntity<>("Unautorized", HttpStatus.UNAUTHORIZED);
+	}
+	
 	
 	@GetMapping("/getfoods/{id}")
 	public ResponseEntity<?> getfoodofuser(@RequestHeader(value = "Authorization" , required = true) String token, @PathVariable("id") String id) throws CustomException{
 		if(authService.validate(token).isValid()) {
 			
-			  List<Food> fep = service.getthefoodby(id);
-			  return new ResponseEntity<List<Food>>(fep, HttpStatus.OK);
+			  FoodDetailEntity fde = service.getthefoodby(id);
+			  return new ResponseEntity<FoodDetailEntity>(fde, HttpStatus.OK);
 			}
 			else
 			

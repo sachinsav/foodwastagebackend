@@ -11,6 +11,7 @@ public interface AppService {
 
 	public void addnewfood(FoodDetailEntity food);
 	public List<FoodEventPojo> getnearestdistance(Location location);
-	public List<Food> getthefoodby(String id);
+	public FoodDetailEntity getthefoodby(String id);
+	public List<FoodEventPojo> getnearestdistanceinrange(Location location, Integer dis);
 	
 }
